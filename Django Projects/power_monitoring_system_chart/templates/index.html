@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- semantic UI -->
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>Power Monitoring System</title>
+  </head>
+  <body>
+      
+    <div id="container" style="width: 75%;">
+        <canvas id="power_monitor_chart" data-url="{% url 'power_monitor_chart' %}"></canvas>
+      </div>
+    
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+      <script>
+    
+        $(function () {
+    
+          var $powerChart = $("#power_monitor_chart");
+          $.ajax({
+            url: $powerChart.data("url"),
+            success: function (data) {
+    
+              var ctx = $powerChart[0].getContext("2d");
+    
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: data.labels,
+                  datasets: [{
+                    label: 'Appliance Rating',
+                    backgroundColor:[
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(255, 99, 132, 0.6)'
+                    ],
+                    borderWidth:1,
+                    borderColor:'#777',
+                    hoverBorderWidth:3,
+                    hoverBorderColor:'#000',
+                    data: data.data
+                  }]          
+                },
+                options: {
+                  responsive: true,
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Appliances Power Rating Bar Chart'
+                  }
+                }
+              });
+    
+            }
+          });
+    
+        });
+    
+      </script>
+
+  </body>
+</html>
